@@ -1,0 +1,58 @@
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import api from './Services/api';
+
+
+
+
+export default function App() {
+  const [tasks, setTask] = useState([]);
+
+  const addTask = task => {
+    setTask([...tasks, task]);
+    console.log(tasks)
+  };
+
+
+
+  async function receber() {
+    const response_get = await api.get('/api/bot')
+    const data = response_get.data
+    setTask(data)
+    console.log(data);
+  }
+
+  useEffect(() => {
+      receber()
+  },[])
+  return (
+    <div>
+      <button onClick={() => {}}>Adicionar  </button>
+      <div className="App">
+        
+        
+        
+        <List tasks={tasks} />   
+      </div>
+    </div>
+  );
+}
+
+
+function List(props) {
+  const { tasks } = props;
+ 
+  return (
+      <div className="App">
+      {tasks.map((task, index) => {
+        return (
+            <div className="caixa" key={index}> 
+              
+              <h2> {task.botName} </h2>
+            </div>
+        );
+      })}
+      </div>
+  );
+}
+
